@@ -6,18 +6,16 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(logger("dev"));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
-require("./routes/apiroutes")(app);
+
 require("./routes/htmlroutes")(app);
-
-
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
-
-});
+require("./routes/apiroutes")(app);
 
 
 app.listen(PORT, function() {
